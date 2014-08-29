@@ -1,0 +1,29 @@
+{
+  "name": "runner",
+  "version": "0.0.1",
+  "authors": [
+    "Benjamin Dreux <benjamin.dreux@code3.ca>"
+  ],
+  "description": "Tiny app to follow footing run",
+  "main": "runner.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "running",
+    "track",
+    "personal-tracking"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.4.0"
+  }
+}
