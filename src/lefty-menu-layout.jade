@@ -8,10 +8,6 @@ link(rel="import", href="dep/paper-shadow/paper-shadow.html")
 
 polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", noscript)
   template
-    //- style.
-    //-   :host /deep/ core-header-panel[navigation] core-item[active]{
-    //-     border-right: 6px solid #f5f5f5;
-    //-   }
     core-scaffold
       core-header-panel(navigation, flex, mode="seamed")
         core-toolbar
@@ -19,11 +15,11 @@ polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", nosc
             h1 Runner
 
         core-menu
-          core-item(icon="add", label="Add a track", class?="{{selected=='add-track'}}")
+          core-item(icon="add", label="Add a track", class="{{(selected=='add-track')?'core-selected':'' }}")
             a(href="/#/tracks/add")
-          core-item(icon="trending-up", label="Stats", active?="{{selected == 'stats'}}")
+          core-item(icon="trending-up", label="Stats", class="{{(selected == 'stats')?'core-selected':''}}")
             a(href="/#/tracks/stats")
-          core-item(icon="search", label="Search", active?="{{selected == 'search'}}")
+          core-item(icon="search", label="Search", class="{{(selected == 'search')?'core-selected':''}}")
             a(href="/#/search")
 
       div(tool) {{pageTitle}}
