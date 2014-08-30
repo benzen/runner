@@ -1,5 +1,42 @@
 link(rel="import", href="lefty-menu-layout.html")
+link(rel="import", href="../dep/core-field/core-field.html")
+link(rel="import", href="../dep/core-input/core-input.html")
+link(rel="import", href="../dep/paper-radio-group/paper-radio-group.html")
+link(rel="import", href="../dep/paper-radio-button/paper-radio-button.html")
+link(rel="import", href="../dep/paper-button/paper-button.html")
+link(rel="import", href="../dep/core-ajax/core-ajax.html")
+
 polymer-element(name="add-track", noscript)
   template
+    core-ajax( id="req", url="http://gdata.youtube.com/feeds/api/videos/", params='{"alt":"json", "q":"chrome"}', handleAs="json", on-core-response="{{handleResponse}}")
+
     lefty-menu-layout(selected="add-track", pageTitle="Add track")
-      div.title Add track
+      form
+        core-field
+          core-icon( icon="menu")
+          label Distance
+          core-input(placeholder="in kilometers", value="{{distance}}")
+        core-field
+          core-icon(icon="")
+          label Duration
+          core-input(placeholder="in minutes",value="{{duration}}")
+        core-field
+          core-icon(icon="")
+          label Heart rate
+          core-input(placeholder="in BPM", value="{{heartRate}}")
+        core-field
+          core-icon(icon="")
+          label Feeling
+          paper-radio-group(selected="{{feeling}}")
+            paper-radio-button( name="bad", label="BAAAd")
+            paper-radio-button( name="ok", label="ok")
+            paper-radio-button( name="cool", label="CoOoL")
+      paper-button#saveButton(type="submit", on-click="{{send}}", label="Save")
+      paper-button#cancel(label="Cancel")
+
+  script.
+    Polymer({
+      send:function(){
+        this.$.req.go();
+      }
+    })
