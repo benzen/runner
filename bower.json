@@ -33,6 +33,11 @@
     "core-pages": "Polymer/core-pages#~0.4.0",
     "paper-shadow": "Polymer/paper-shadow#~0.4.0",
     "core-scaffold": "Polymer/core-scaffold#~0.4.0",
-    "app-router": "~0.7.0"
+    "app-router": "~0.7.0",
+    "core-field": "Polymer/core-field#~0.4.0",
+    "core-input": "Polymer/core-input#~0.4.0",
+    "paper-radio-group": "Polymer/paper-radio-group#~0.4.0",
+    "paper-button": "Polymer/paper-button#~0.4.0",
+    "core-ajax": "Polymer/core-ajax#~0.4.0"
   }
 }
