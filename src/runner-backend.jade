@@ -1,0 +1,13 @@
+link(rel="import", href="dep/core-ajax/core-ajax.html")
+
+polymer-element(name="runner-backend", noscript, \attributes="addTrack")
+  template
+    core-ajax( id="addTrackReq", url="http://jsonip.com/", handleAs="json")
+  script.
+    Polymer('runner-backend',{
+        publish:{
+          addTrack:function(){
+            this.$.addTrackReq.go();
+          }
+        }
+    })
