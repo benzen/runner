@@ -49,6 +49,7 @@ polymer-element(name="stat-tracks")
         this.distanceSeries = [this.tracks.map(function(track){ return track.distance})];
         this.durationSeries = [this.tracks.map(function(track){ return track.duration})];
         this.heartRateSeries = [this.tracks.map(function(track){ return track.heartRate})];
+        this.seriesDate = this.tracks.map(function(track){ return track.date});
         this.seriesColors = ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
       },
       getAverageTrack: function(){
