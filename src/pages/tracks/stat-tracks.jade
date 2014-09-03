@@ -1,5 +1,49 @@
 link(rel="import", href="lefty-menu-layout.html")
-polymer-element(name="stat-tracks", noscript>)
+link(rel="import", href="runner-backend.html")
+link(rel="import", href="dep/core-field/core-field.html")
+
+polymer-element(name="stat-tracks")
   template
+    runner-backend(id="backend")
     lefty-menu-layout(selected="stats", pageTitle="Stats")
-      div.title stat-tracks
+      p always present text
+      template(if="{{tracks.length === 0}}")
+        p there is no tracks yet
+      template(if="{{tracks.length > 0 }}")
+        | Average track
+        form
+          core-field
+            label Average distance: {{averageTrack.distance}}
+          core-field
+            label Average duration: {{averageTrack.duration}} min
+          core-field
+            label Average heart rate: {{averageTrack.heartRate}} bpm
+          //- core-field
+          //-   label Average feeling: {{averageTrack.feeling}}
+      template(repeat="{{track, i in tracks}}")
+        | track \#{{i+1}}
+        form
+          core-field
+            label Distance: {{track.distance}} km
+          core-field
+            label Duration: {{track.duration}} min
+          core-field
+            label Heart rate: {{track.heartRate}} bpm
+          core-field
+            label Feeling: {{track.feeling}}
+  script.
+    Polymer('stat-tracks',{
+      domReady:function(){
+        this.tracks = this.$.backend.getAllTracks();
+        this.averageTrack = this.getAverageTrack();
+      },
+      getAverageTrack: function(){
+        return {
+          duration: this.tracks.reduce(function(acc, track){ return acc + track.duration}, 0),
+          distance: this.tracks.reduce(function(acc, track){ return acc + track.distance},0),
+          heartRate: this.tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)
+          //- ,
+          //- duration: this.tracks.reduce(function(track){ return track.duration})
+        }
+      }
+    })

@@ -1,13 +1,24 @@
 link(rel="import", href="dep/core-ajax/core-ajax.html")
+link(rel="import", href="dep/core-localstorage/core-localstorage.html")
 
-polymer-element(name="runner-backend", noscript, \attributes="addTrack")
+polymer-element(name="runner-backend", \attributes="addTrack, getAllTracks")
   template
     core-ajax( id="addTrackReq", url="http://jsonip.com/", handleAs="json")
+    core-localstorage( id="store", name="tracks", value="{{tracks}}")
   script.
     Polymer('runner-backend',{
         publish:{
-          addTrack:function(){
-            this.$.addTrackReq.go();
+          addTrack:function(track){
+            this.tracks.push(track);
+            this.$.store.save();
+          },
+          getAllTracks:function(){
+            return this.tracks;
+          },
+          ready:function(){
+            this.$.store.load();
+            this.tracks = this.tracks || [];
+            this.$.store.save();
           }
         }
     })

@@ -38,6 +38,7 @@
     "core-input": "Polymer/core-input#~0.4.0",
     "paper-radio-group": "Polymer/paper-radio-group#~0.4.0",
     "paper-button": "Polymer/paper-button#~0.4.0",
-    "core-ajax": "Polymer/core-ajax#~0.4.0"
+    "core-ajax": "Polymer/core-ajax#~0.4.0",
+    "core-localstorage": "Polymer/core-localstorage#~0.4.0"
   }
 }

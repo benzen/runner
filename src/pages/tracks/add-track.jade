@@ -1,29 +1,28 @@
+link(rel="import", href="runner-backend.html")
 link(rel="import", href="lefty-menu-layout.html")
-link(rel="import", href="../dep/core-field/core-field.html")
-link(rel="import", href="../dep/core-input/core-input.html")
-link(rel="import", href="../dep/paper-radio-group/paper-radio-group.html")
-link(rel="import", href="../dep/paper-radio-button/paper-radio-button.html")
-link(rel="import", href="../dep/paper-button/paper-button.html")
-link(rel="import", href="../dep/core-ajax/core-ajax.html")
+link(rel="import", href="dep/core-field/core-field.html")
+link(rel="import", href="dep/core-input/core-input.html")
+link(rel="import", href="dep/paper-radio-group/paper-radio-group.html")
+link(rel="import", href="dep/paper-radio-button/paper-radio-button.html")
+link(rel="import", href="dep/paper-button/paper-button.html")
 
-polymer-element(name="add-track", noscript)
+polymer-element(name="add-track", noscript, \attributes="send")
   template
-    core-ajax( id="req", url="http://gdata.youtube.com/feeds/api/videos/", params='{"alt":"json", "q":"chrome"}', handleAs="json", on-core-response="{{handleResponse}}")
-
+    runner-backend(id="backend")
     lefty-menu-layout(selected="add-track", pageTitle="Add track")
       form
         core-field
           core-icon( icon="menu")
           label Distance
-          core-input(placeholder="in kilometers", value="{{distance}}")
+          core-input(placeholder="in kilometers", value="{{distance}}", type="number")
         core-field
           core-icon(icon="")
           label Duration
-          core-input(placeholder="in minutes",value="{{duration}}")
+          core-input(placeholder="in minutes",value="{{duration}}", type="number")
         core-field
           core-icon(icon="")
           label Heart rate
-          core-input(placeholder="in BPM", value="{{heartRate}}")
+          core-input(placeholder="in BPM", value="{{heartRate}}", type="number")
         core-field
           core-icon(icon="")
           label Feeling
@@ -31,12 +30,19 @@ polymer-element(name="add-track", noscript)
             paper-radio-button( name="bad", label="BAAAd")
             paper-radio-button( name="ok", label="ok")
             paper-radio-button( name="cool", label="CoOoL")
-      paper-button#saveButton(type="submit", on-click="{{send}}", label="Save")
+      paper-button#saveButton(type="submit", on-click="{{send}}" label="Save")
       paper-button#cancel(label="Cancel")
 
   script.
     Polymer({
       send:function(){
-        this.$.req.go();
+        var track = {
+          distance: parseInt(this.distance, 10),
+          duration: parseInt(this.duration, 10),
+          heartRate: parseInt(this.heartRate, 10),
+          feeling: this.feeling
+        };
+        this.$.backend.addTrack(track);
+        location.replace("#/tracks/stats")
       }
     })
