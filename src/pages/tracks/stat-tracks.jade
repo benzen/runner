@@ -1,6 +1,7 @@
 link(rel="import", href="lefty-menu-layout.html")
 link(rel="import", href="runner-backend.html")
 link(rel="import", href="dep/core-field/core-field.html")
+link(rel="import", href="dep/chart-elements/chart-line.html")
 
 polymer-element(name="stat-tracks")
   template
@@ -20,6 +21,10 @@ polymer-element(name="stat-tracks")
             label Average heart rate: {{averageTrack.heartRate}} bpm
           //- core-field
           //-   label Average feeling: {{averageTrack.feeling}}
+        br
+        |distance evolution
+        chart-line(values="{{distanceSeries}}", labels="{{seriesDate}}", colors="{{seriesColors}}")
+        br
       template(repeat="{{track, i in tracks}}")
         | track \#{{i+1}}
         form
@@ -36,14 +41,15 @@ polymer-element(name="stat-tracks")
       domReady:function(){
         this.tracks = this.$.backend.getAllTracks();
         this.averageTrack = this.getAverageTrack();
+        this.distanceSeries = [this.tracks.map(function(track){ return track.distance})];
+        this.seriesDate = ["jan", "fev"];
+        this.seriesColors = ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
       },
       getAverageTrack: function(){
         return {
-          duration: this.tracks.reduce(function(acc, track){ return acc + track.duration}, 0),
-          distance: this.tracks.reduce(function(acc, track){ return acc + track.distance},0),
-          heartRate: this.tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)
-          //- ,
-          //- duration: this.tracks.reduce(function(track){ return track.duration})
+          duration: this.tracks.reduce(function(acc, track){ return acc + track.duration}, 0) / this.tracks.length,
+          distance: this.tracks.reduce(function(acc, track){ return acc + track.distance},0)/ this.tracks.length,
+          heartRate: this.tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)/ this.tracks.length
         }
       }
     })
