@@ -19,12 +19,17 @@ polymer-element(name="stat-tracks")
             label Average duration: {{averageTrack.duration}} min
           core-field
             label Average heart rate: {{averageTrack.heartRate}} bpm
-          //- core-field
-          //-   label Average feeling: {{averageTrack.feeling}}
-        br
-        |distance evolution
-        chart-line(values="{{distanceSeries}}", labels="{{seriesDate}}", colors="{{seriesColors}}")
-        br
+        div(style="display:flex")
+          div(style="display: flex, flex-direction: verical")
+            center Distance evolution
+            chart-line(values="{{distanceSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[0]]}}")
+          div(style="display:flex, flex-direction:vertical")
+            center Duration evolution
+            chart-line(values="{{durationSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[1]]}}")
+          div(style="display:flex, flex-direction:vertical")
+            center HeartRate evolution
+            chart-line(values="{{heartRateSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[2]]}}")
+
       template(repeat="{{track, i in tracks}}")
         | track \#{{i+1}}
         form
@@ -42,7 +47,8 @@ polymer-element(name="stat-tracks")
         this.tracks = this.$.backend.getAllTracks();
         this.averageTrack = this.getAverageTrack();
         this.distanceSeries = [this.tracks.map(function(track){ return track.distance})];
-        this.seriesDate = ["jan", "fev"];
+        this.durationSeries = [this.tracks.map(function(track){ return track.duration})];
+        this.heartRateSeries = [this.tracks.map(function(track){ return track.heartRate})];
         this.seriesColors = ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
       },
       getAverageTrack: function(){

@@ -12,7 +12,11 @@ polymer-element(name="add-track", noscript, \attributes="send")
     lefty-menu-layout(selected="add-track", pageTitle="Add track")
       form
         core-field
-          core-icon( icon="menu")
+          core-icon( icon="")
+          label Date
+          core-input(value="{{date}}", type="date")
+        core-field
+          core-icon( icon="")
           label Distance
           core-input(placeholder="in kilometers", value="{{distance}}", type="number")
         core-field
@@ -37,6 +41,7 @@ polymer-element(name="add-track", noscript, \attributes="send")
     Polymer({
       send:function(){
         var track = {
+          date: this.date,
           distance: parseInt(this.distance, 10),
           duration: parseInt(this.duration, 10),
           heartRate: parseInt(this.heartRate, 10),
