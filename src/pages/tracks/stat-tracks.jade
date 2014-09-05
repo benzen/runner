@@ -20,14 +20,14 @@ polymer-element(name="stat-tracks")
             label Average duration: {{averageDuration(tracks)}} min
           core-field
             label Average heart rate: {{averageHeartRate(tracks)}} bpm
-        div(style="display:flex")
-          div(style="display: flex, flex-direction: vertical")
+        div( layout horizontal)
+          div(vertical flex)
             center Distance evolution
             chart-line(values="{{distanceSeries(tracks)}}", labels="{{seriesDate(tracks)}}", colors="{{colorsSeries(0)}}")
-          div(style="display:flex, flex-direction:vertical")
+          div(flex veritcal)
             center Duration evolution
             chart-line(values="{{durationSeries(tracks)}}", labels="{{seriesDate(tracks)}}", colors="{{colorsSeries(1)}}")
-          div(style="display:flex, flex-direction:vertical")
+          div(flex vertical)
             center HeartRate evolution
             chart-line(values="{{heartRateSeries(tracks)}}", labels="{{seriesDate(tracks)}}", colors="{{colorsSeries(2)}}")
 
