@@ -12,9 +12,6 @@ polymer-element(name="runner-backend", \attributes="addTrack, tracks, trackToDel
             this.tracks.push(track);
             this.$.store.save();
           },
-          //- getAllTracks:function(){
-          //-   return this.tracks;
-          //- },
           trackToDeleteChanged:function(){
             var newTracks = this.tracks.filter(function(track, index){
               return index !== this.trackToDelete;
