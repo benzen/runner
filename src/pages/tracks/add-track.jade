@@ -48,6 +48,7 @@ polymer-element(name="add-track", noscript, \attributes="send")
           feeling: this.feeling
         };
         this.$.backend.addTrack(track);
-        location.replace("#/tracks/stats")
+        this.fire("goto","tracks stats")
+
       }
     })

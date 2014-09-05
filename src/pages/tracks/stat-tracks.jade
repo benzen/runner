@@ -20,7 +20,7 @@ polymer-element(name="stat-tracks")
           core-field
             label Average heart rate: {{averageTrack.heartRate}} bpm
         div(style="display:flex")
-          div(style="display: flex, flex-direction: verical")
+          div(style="display: flex, flex-direction: vertical")
             center Distance evolution
             chart-line(values="{{distanceSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[0]]}}")
           div(style="display:flex, flex-direction:vertical")

@@ -13,10 +13,29 @@ html
   link(rel="import", href="dep/app-router/app-router.html")
 
 body(fullbleed, unresolved)
-    app-router
-      app-route(path="/tracks/add", import="add-track.html" )
-      app-route(path="/tracks/stats", import="stat-tracks.html" )
-      app-route(path="/search", template )
-        template
-          p not implemented yet
-      app-route(path="/", import="welcome-dashed.html" )
+      //- app-router(on-goto="{{redirectTo()}}")
+      //-   template(repeat="{{route in routes}}")
+      //-     app-route(path="{{route.path}}", import="{{route.template}}")
+
+  app-router
+    app-route(path="/tracks/add", import="add-track.html" )
+    app-route(path="/tracks/stats", import="stat-tracks.html" )
+    app-route(path="/search", template )
+      template
+        p not implemented yet
+    app-route(path="/", import="welcome-dashed.html" )
+
+  script.
+    var routes = [
+          {name:"add track", path:"/tracks/add", template:"add-track.html"},
+          {name:"tracks stats", path:"/tracks/stats", template:"stat-tracks.html"},
+          {name:"tracks search", path:"/tracks/search", template:"search.html"},
+          {name:"index", path:"/", template:"welcome-dashed.html"}
+        ]
+    this.addEventListener("goto",function(event){
+      var routeName = event.detail;
+      var route = routes.filter(function(route){
+        return route.name === routeName;
+      });
+      location.replace("#"+route[0].path);
+    });
