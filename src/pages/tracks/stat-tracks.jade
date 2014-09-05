@@ -15,11 +15,11 @@ polymer-element(name="stat-tracks")
         | Average track
         form
           core-field
-            label Average distance: {{averageTrack().distance}}
+            label Average distance: {{averageDistance(tracks)}}
           core-field
-            label Average duration: {{averageTrack().duration}} min
+            label Average duration: {{averageDuration(tracks)}} min
           core-field
-            label Average heart rate: {{averageTrack().heartRate}} bpm
+            label Average heart rate: {{averageHeartRate(tracks)}} bpm
         div(style="display:flex")
           div(style="display: flex, flex-direction: vertical")
             center Distance evolution
@@ -45,19 +45,17 @@ polymer-element(name="stat-tracks")
             label Feeling: {{track.feeling}}
   script.
     Polymer('stat-tracks',{
-      averageTrack: function(tracks){
-        if(!tracks){
-          return {
-            duration: [],
-            distance: [],
-            heartHeart: []
-          }
-        }
-        return {
-          duration: tracks.reduce(function(acc, track){ return acc + track.duration}, 0) / this.tracks.length,
-          distance: tracks.reduce(function(acc, track){ return acc + track.distance},0)/ this.tracks.length,
-          heartRate: tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)/ this.tracks.length
-        }
+      averageDuration:function(tracks){
+        if(!tracks) return 0;
+        return tracks.reduce(function(acc, track){ return acc + track.duration}, 0) / this.tracks.length
+      },
+      averageDistance:function(tracks){
+        if(!tracks) return 0;
+        return tracks.reduce(function(acc, track){ return acc + track.distance},0)/ this.tracks.length;
+      },
+      averageHeartRate:function(tracks){
+        if(!tracks) return 0
+          return tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)/ this.tracks.length
       },
       deleteTrack:function(event){
         var trackIndex = event.target.templateInstance.model.trackIndex
