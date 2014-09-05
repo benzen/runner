@@ -2,36 +2,38 @@ link(rel="import", href="lefty-menu-layout.html")
 link(rel="import", href="runner-backend.html")
 link(rel="import", href="dep/core-field/core-field.html")
 link(rel="import", href="dep/chart-elements/chart-line.html")
+link(rel="import", href="dep/paper-button/paper-button.html")
 
 polymer-element(name="stat-tracks")
   template
-    runner-backend(id="backend")
+    runner-backend(id="backend", tracks="{{tracks}}")
     lefty-menu-layout(selected="stats", pageTitle="Stats")
       p always present text
       template(if="{{tracks.length === 0}}")
         p there is no tracks yet
-      template(if="{{tracks.length > 0 }}")
+      template(if="{{tracks.length > 1 }}")
         | Average track
         form
           core-field
-            label Average distance: {{averageTrack.distance}}
+            label Average distance: {{averageTrack().distance}}
           core-field
-            label Average duration: {{averageTrack.duration}} min
+            label Average duration: {{averageTrack().duration}} min
           core-field
-            label Average heart rate: {{averageTrack.heartRate}} bpm
+            label Average heart rate: {{averageTrack().heartRate}} bpm
         div(style="display:flex")
           div(style="display: flex, flex-direction: vertical")
             center Distance evolution
-            chart-line(values="{{distanceSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[0]]}}")
+            chart-line(values="{{distanceSeries(tracks)}}", labels="{{seriesDate(tracks)}}", colors="{{colorsSeries(0)}}")
           div(style="display:flex, flex-direction:vertical")
             center Duration evolution
-            chart-line(values="{{durationSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[1]]}}")
+            chart-line(values="{{durationSeries(tracks)}}", labels="{{seriesDate(tracks)}}", colors="{{colorsSeries(1)}}")
           div(style="display:flex, flex-direction:vertical")
             center HeartRate evolution
-            chart-line(values="{{heartRateSeries}}", labels="{{seriesDate}}", colors="{{[seriesColors[2]]}}")
+            chart-line(values="{{heartRateSeries(tracks)}}", labels="{{seriesDate(tracks)}}", colors="{{colorsSeries(2)}}")
 
-      template(repeat="{{track, i in tracks}}")
-        | track \#{{i+1}}
+      template(repeat="{{track, trackIndex in tracks}}")
+        | track \#{{trackIndex+1}}
+        paper-button(on-click="{{deleteTrack}}", label="Delete")
         form
           core-field
             label Distance: {{track.distance}} km
@@ -43,20 +45,39 @@ polymer-element(name="stat-tracks")
             label Feeling: {{track.feeling}}
   script.
     Polymer('stat-tracks',{
-      domReady:function(){
-        this.tracks = this.$.backend.getAllTracks();
-        this.averageTrack = this.getAverageTrack();
-        this.distanceSeries = [this.tracks.map(function(track){ return track.distance})];
-        this.durationSeries = [this.tracks.map(function(track){ return track.duration})];
-        this.heartRateSeries = [this.tracks.map(function(track){ return track.heartRate})];
-        this.seriesDate = this.tracks.map(function(track){ return track.date});
-        this.seriesColors = ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
-      },
-      getAverageTrack: function(){
-        return {
-          duration: this.tracks.reduce(function(acc, track){ return acc + track.duration}, 0) / this.tracks.length,
-          distance: this.tracks.reduce(function(acc, track){ return acc + track.distance},0)/ this.tracks.length,
-          heartRate: this.tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)/ this.tracks.length
+      averageTrack: function(tracks){
+        if(!tracks){
+          return {
+            duration: [],
+            distance: [],
+            heartHeart: []
+          }
         }
+        return {
+          duration: tracks.reduce(function(acc, track){ return acc + track.duration}, 0) / this.tracks.length,
+          distance: tracks.reduce(function(acc, track){ return acc + track.distance},0)/ this.tracks.length,
+          heartRate: tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)/ this.tracks.length
+        }
+      },
+      deleteTrack:function(event){
+        var trackIndex = event.target.templateInstance.model.trackIndex
+        trackIndex = parseInt(trackIndex, 10);
+        this.$.backend.trackToDelete = trackIndex;
+      },
+      distanceSeries:function(tracks){
+        return [tracks.map(function(track){ return track.distance})];
+      },
+      durationSeries: function(tracks){
+        return [tracks.map(function(track){ return track.duration})];
+      },
+      heartRateSeries: function(tracks){
+        return [tracks.map(function(track){ return track.heartRate})];
+      },
+      seriesDate:function(tracks){
+        return tracks.map(function(track){ return track.date});
+      },
+      colorsSeries:function(selectedColor){
+        var colors =  ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
+        return [colors[selectedColor]];
       }
     })

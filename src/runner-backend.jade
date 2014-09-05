@@ -1,7 +1,7 @@
 link(rel="import", href="dep/core-ajax/core-ajax.html")
 link(rel="import", href="dep/core-localstorage/core-localstorage.html")
 
-polymer-element(name="runner-backend", \attributes="addTrack, getAllTracks")
+polymer-element(name="runner-backend", \attributes="addTrack, tracks, trackToDelete")
   template
     core-ajax( id="addTrackReq", url="http://jsonip.com/", handleAs="json")
     core-localstorage( id="store", name="tracks", value="{{tracks}}")
@@ -12,8 +12,15 @@ polymer-element(name="runner-backend", \attributes="addTrack, getAllTracks")
             this.tracks.push(track);
             this.$.store.save();
           },
-          getAllTracks:function(){
-            return this.tracks;
+          //- getAllTracks:function(){
+          //-   return this.tracks;
+          //- },
+          trackToDeleteChanged:function(){
+            var newTracks = this.tracks.filter(function(track, index){
+              return index !== this.trackToDelete;
+            }, this);
+            this.trackToDelete = null;
+            this.tracks = newTracks;
           },
           ready:function(){
             this.$.store.load();
