@@ -13,9 +13,6 @@ html
   link(rel="import", href="dep/app-router/app-router.html")
 
 body(fullbleed, unresolved)
-      //- app-router(on-goto="{{redirectTo()}}")
-      //-   template(repeat="{{route in routes}}")
-      //-     app-route(path="{{route.path}}", import="{{route.template}}")
 
   app-router
     app-route(path="/tracks/add", import="add-track.html" )
