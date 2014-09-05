@@ -7,22 +7,20 @@ polymer-element(name="runner-backend", \attributes="addTrack, tracks, trackToDel
     core-localstorage( id="store", name="tracks", value="{{tracks}}")
   script.
     Polymer('runner-backend',{
-        publish:{
-          addTrack:function(track){
-            this.tracks.push(track);
-            this.$.store.save();
-          },
-          trackToDeleteChanged:function(){
-            var newTracks = this.tracks.filter(function(track, index){
-              return index !== this.trackToDelete;
-            }, this);
-            this.trackToDelete = null;
-            this.tracks = newTracks;
-          },
-          ready:function(){
-            this.$.store.load();
-            this.tracks = this.tracks || [];
-            this.$.store.save();
-          }
-        }
+      addTrack:function(track){
+        this.tracks.push(track);
+        this.$.store.save();
+      },
+      trackToDeleteChanged:function(){
+        var newTracks = this.tracks.filter(function(track, index){
+          return index !== this.trackToDelete;
+        }, this);
+        this.trackToDelete = null;
+        this.tracks = newTracks;
+      },
+      ready:function(){
+        this.$.store.load();
+        this.tracks = this.tracks || [];
+        this.$.store.save();
+      }
     })
