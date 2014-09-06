@@ -8,6 +8,7 @@ link(rel="import", href="dep/paper-shadow/paper-shadow.html")
 
 polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", noscript)
   template
+    runner-backend(id="backend")
     core-scaffold
       core-header-panel(navigation, flex, mode="seamed")
         core-toolbar
@@ -21,8 +22,25 @@ polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", nosc
             a(href="/#/tracks/stats")
           core-item(icon="search", label="Search", class="{{(selected == 'search')?'core-selected':''}}")
             a(href="/#/search")
+          core-item
+            paper-button(label="Save", on-click="{{saveTracks}}")
+          core-item( id="savingLabel",label="Saving", class="{{(saving)?'core-selected':''}}")
+          //- core-item( id="connectionLabel", label="Connection broken", class="{{(selected == 'saving')?'core-selected':''}}")
 
       div(tool) {{pageTitle}}
 
       div(content)
         content
+  script.
+    Polymer({
+        ready:function(){
+          this.addEventListener("runner-tracks-saving",function(){
+            this.saving = true;
+          });
+          //- this.addEventListener("runner-tracks-saving",function(){});
+          //- this.addEventListener("runner-connection-broken",function(){});
+        },
+        saveTracks:function(){
+          this.$.backend.saveTracks = true
+        }
+      });
