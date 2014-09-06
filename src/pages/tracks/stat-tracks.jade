@@ -45,17 +45,28 @@ polymer-element(name="stat-tracks")
             label Feeling: {{track.feeling}}
   script.
     Polymer('stat-tracks',{
-      averageDuration:function(tracks){
+      averageForField:function(tracks, field){
         if(!tracks) return 0;
-        return tracks.reduce(function(acc, track){ return acc + track.duration}, 0) / this.tracks.length
+        var numbers = tracks.map(function(track){ return track[field]});
+        var sum = numbers.reduce(function(acc,n){ return acc+n});
+        return sum / tracks.length
+      },
+      seriesForField:function(tracks, field, inArray){
+        var series = tracks.map(function(track){ return track[field]})
+        if(inArray){
+          return [series];
+        }else {
+          return series;
+        }
+      },
+      averageDuration:function(tracks){
+        return this.averageForField(tracks, "duration");
       },
       averageDistance:function(tracks){
-        if(!tracks) return 0;
-        return tracks.reduce(function(acc, track){ return acc + track.distance},0)/ this.tracks.length;
+        return this.averageForField(tracks, "distance");
       },
       averageHeartRate:function(tracks){
-        if(!tracks) return 0
-          return tracks.reduce(function(acc, track){ return acc + track.heartRate}, 0)/ this.tracks.length
+        return this.averageForField(tracks, "heartRate");
       },
       deleteTrack:function(event){
         var trackIndex = event.target.templateInstance.model.trackIndex
@@ -63,16 +74,16 @@ polymer-element(name="stat-tracks")
         this.$.backend.trackToDelete = trackIndex;
       },
       distanceSeries:function(tracks){
-        return [tracks.map(function(track){ return track.distance})];
+        return seriesForField(tracks, 'distance', true);
       },
       durationSeries: function(tracks){
-        return [tracks.map(function(track){ return track.duration})];
+        return seriesForField(tracks, 'duration', true);
       },
       heartRateSeries: function(tracks){
-        return [tracks.map(function(track){ return track.heartRate})];
+        return seriesForField(tracks, 'heartRate', true);
       },
       seriesDate:function(tracks){
-        return tracks.map(function(track){ return track.date});
+        return seriesForField(tracks, 'date');
       },
       colorsSeries:function(selectedColor){
         var colors =  ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
