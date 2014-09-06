@@ -15,24 +15,16 @@ html
 body(fullbleed, unresolved)
 
   app-router
-    app-route(path="/tracks/add", import="add-track.html" )
-    app-route(path="/tracks/stats", import="stat-tracks.html" )
-    app-route(path="/search", template )
-      template
-        p not implemented yet
-    app-route(path="/", import="welcome-dashed.html" )
+    app-route(path="/tracks/add", import="add-track.html", name="add tracks" )
+    app-route(path="/tracks/stats", import="stat-tracks.html", name="tracks stats" )
+    app-route(path="/", import="welcome-dashed.html", name="index" )
 
   script.
-    var routes = [
-          {name:"add track", path:"/tracks/add", template:"add-track.html"},
-          {name:"tracks stats", path:"/tracks/stats", template:"stat-tracks.html"},
-          {name:"tracks search", path:"/tracks/search", template:"search.html"},
-          {name:"index", path:"/", template:"welcome-dashed.html"}
-        ]
     this.addEventListener("goto",function(event){
       var routeName = event.detail;
-      var route = routes.filter(function(route){
-        return route.name === routeName;
+      var routes = document.querySelectorAll("app-route")
+      var route = routes.array().filter(function(route){
+        return route.attributes.name.value === routeName;
       });
-      location.replace("#"+route[0].path);
+      location.replace("#"+route[0].attributes.path.value);
     });
