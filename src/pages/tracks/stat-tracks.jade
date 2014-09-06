@@ -49,7 +49,14 @@ polymer-element(name="stat-tracks")
         if(!tracks) return 0;
         var numbers = tracks.map(function(track){ return track[field]});
         var sum = numbers.reduce(function(acc,n){ return acc+n});
-        return sum / tracks.length
+        return this.round(sum / tracks.length, 2)
+      },
+      round:function(n, nbDecimal){
+          var mul = Math.pow(10, nbDecimal);
+          var nMul = n*mul;
+          var roundedNMul = Math.round(nMul);
+          var roundedN = roundedNMul / mul;
+          return roundedN;
       },
       seriesForField:function(tracks, field, inArray){
         var series = tracks.map(function(track){ return track[field]})
@@ -74,16 +81,16 @@ polymer-element(name="stat-tracks")
         this.$.backend.trackToDelete = trackIndex;
       },
       distanceSeries:function(tracks){
-        return seriesForField(tracks, 'distance', true);
+        return this.seriesForField(tracks, 'distance', true);
       },
       durationSeries: function(tracks){
-        return seriesForField(tracks, 'duration', true);
+        return this.seriesForField(tracks, 'duration', true);
       },
       heartRateSeries: function(tracks){
-        return seriesForField(tracks, 'heartRate', true);
+        return this.seriesForField(tracks, 'heartRate', true);
       },
       seriesDate:function(tracks){
-        return seriesForField(tracks, 'date');
+        return this.seriesForField(tracks, 'date');
       },
       colorsSeries:function(selectedColor){
         var colors =  ['253,180,92','247,70,74','70,191,189','148,159,177','77,83,96'];
