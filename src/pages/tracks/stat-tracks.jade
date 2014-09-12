@@ -33,7 +33,7 @@ polymer-element(name="stat-tracks")
 
       template(repeat="{{track, trackIndex in tracks}}")
         | track \#{{trackIndex+1}}
-        paper-button(on-click="{{deleteTrack}}", label="Delete")
+        paper-button(on-click="{{deleteTrack}}", label="Delete", icon="delete")
         form
           core-field
             label Distance: {{track.distance}} km
