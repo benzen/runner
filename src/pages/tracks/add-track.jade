@@ -8,6 +8,11 @@ link(rel="import", href="dep/paper-button/paper-button.html")
 
 polymer-element(name="add-track", noscript, \attributes="send")
   template
+    style.
+      label {
+        margin-right: 10px
+      }
+
     runner-backend(id="backend")
     lefty-menu-layout(selected="add-track", pageTitle="Add track")
       form
