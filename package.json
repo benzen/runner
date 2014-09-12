@@ -1,0 +1,24 @@
+{
+  "name": "runner",
+  "version": "0.0.0",
+  "description": "Tiny app to follow footing run",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benzen/runner.git"
+  },
+  "author": "benjamin.dreux@code3.ca",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/benzen/runner/issues"
+  },
+  "homepage": "https://github.com/benzen/runner",
+  "dependencies": {
+    "express": "~4.9.0",
+    "morgan": "~1.3.0",
+    "jade": "~1.6.0"
+  }
+}
