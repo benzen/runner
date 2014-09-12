@@ -23,9 +23,9 @@ polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", nosc
           core-item(icon="search", label="Search", class="{{(selected == 'search')?'core-selected':''}}")
             a(href="/#/search")
 
-          .bottom-container(self-bottom, style="position:absolute; bottom:0px;")
+          .bottom-container(style="position:absolute; bottom:0px;")
             core-item
-              paper-button(icon="{{saving?'':'refresh'}}",label="{{saving?'Saving':'Save'}}",on-click="{{saveTracks}}")
+              paper-button(icon="{{saving?'':'cached'}}",label="{{saving?'Saving':'Save'}}",on-click="{{saveTracks}}")
             template(if="offline") Connection broken
 
       div(tool) {{pageTitle}}
