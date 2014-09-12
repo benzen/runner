@@ -8,13 +8,14 @@ link(rel="import", href="dep/paper-shadow/paper-shadow.html")
 
 polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", noscript)
   template
+    runner-backend(id="backend")
     core-scaffold
       core-header-panel(navigation, flex, mode="seamed")
         core-toolbar
-          a(href="/#/")
+          a(href="/")
             h1 Runner
 
-        core-menu
+        core-menu(vertical, layout)
           core-item(icon="add", label="Add a track", class="{{(selected=='add-track')?'core-selected':'' }}")
             a(href="/#/tracks/add")
           core-item(icon="trending-up", label="Stats", class="{{(selected == 'stats')?'core-selected':''}}")
@@ -22,7 +23,28 @@ polymer-element(name="lefty-menu-layout", \attributes="selected,pageTitle", nosc
           core-item(icon="search", label="Search", class="{{(selected == 'search')?'core-selected':''}}")
             a(href="/#/search")
 
+          .bottom-container(self-bottom, style="position:absolute; bottom:0px;")
+            core-item
+              paper-button(icon="{{saving?'':'refresh'}}",label="{{saving?'Saving':'Save'}}",on-click="{{saveTracks}}")
+            template(if="offline") Connection broken
+
       div(tool) {{pageTitle}}
 
       div(content)
         content
+  script.
+    Polymer('lefty-menu-layout',{
+        ready:function(){
+          this.addEventListener("runner-tracks-saved",function(){
+            this.saving = false;
+          },this);
+          this.addEventListener("runner-connection-broken",function(){
+            this.saving = false;
+            this.offline = true;
+          },this);
+        },
+        saveTracks:function(){
+          this.$.backend.saveTracks = true
+          this.saving = true;
+        }
+      });
