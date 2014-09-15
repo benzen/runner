@@ -59,7 +59,7 @@ polymer-element(name="stat-tracks")
           return roundedN;
       },
       seriesForField:function(tracks, field, inArray){
-        var series = tracks.map(function(track){ return track[field]})
+        var series = tracks ? [] :  tracks.map(function(track){ return track[field] });
         if(inArray){
           return [series];
         }else {
